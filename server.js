@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'your_username',
-  password: 'your_password',
+  password: 'guadeloupe33',
   database: 'mydatabase', // Replace with your database name
 });
 
