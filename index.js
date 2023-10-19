@@ -189,6 +189,99 @@ const db = mysql.createConnection(
   }
 
 
+
+
+  function addEmployee() {
+    db.query("SELECT * FROM role", function (err, roleResults) {
+      if (err) {
+        console.log(err);
+      } else {
+        const roleResultList = [];
+        for (let i = 0; i < roleResults.length; i++) {
+          roleResultList.push(roleResults[i].title);
+        }
+  
+        db.query("SELECT * FROM employee", function (err, employeeResults) {
+          if (err) {
+            console.log(err);
+          } else {
+            const employeeResultList = [];
+            employeeResultList.push("None");
+            for (let i = 0; i < employeeResults.length; i++) {
+              const currentName =
+                employeeResults[i].first_name +
+                " " +
+                employeeResults[i].last_name;
+              employeeResultList.push(currentName);
+            }
+  
+            let roleID = 0;
+            let managerID = 0;
+            inquirer
+              .prompt([
+                {
+                  type: "input",
+                  message: "What is the employee's first name?",
+                  name: "firstName",
+                },
+                {
+                  type: "input",
+                  message: "What is the employee's last name?",
+                  name: "lastName",
+                },
+                {
+                  type: "list",
+                  message: "What is the employee's role?",
+                  choices: roleResultList,
+                  name: "roleChoice",
+                },
+  
+                {
+                  type: "list",
+                  message: "Who is the employee's manager?",
+                  choices: employeeResultList,
+                  name: "managerChoice",
+                },
+              ])
+              .then((answers) => {
+                for (let i = 0; i < roleResults.length; i++) {
+                  if (roleResults[i].title === answers.roleChoice) {
+                    roleID = i + 1;
+                  }
+                }
+  
+                if (answers.managerChoice === "None") {
+                  managerID = null;
+                } else {
+                  for (let i = 0; i < employeeResults.length; i++) {
+                    const currentName =
+                      employeeResults[i].first_name +
+                      " " +
+                      employeeResults[i].last_name;
+                    if (currentName === answers.managerChoice) {
+                      managerID = i + 1;
+                    }
+                  }
+                }
+  
+                db.query(
+                  "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
+                  [answers.firstName, answers.lastName, roleID, managerID],
+                  function (err, results) {
+                    if (err) {
+                      console.log(err);
+                    }
+                    console.log("Success!");
+                    showMainMenu();
+                  }
+                );
+              });
+          }
+        });
+      }
+    });
+  }
+  
 // const inquirer = require('inquirer');
 // const Department = require('./models/Department'); 
 
