@@ -1,8 +1,8 @@
 
-
-const inquirer = require("inquirer");
 const mysql = require("mysql2");
 require("dotenv").config();
+const inquirer = require("inquirer");
+
 
 menuList = [
   {
@@ -61,7 +61,7 @@ const db = mysql.createConnection(
 
 
   function addRole() {
-    //Get the current departments
+  
     db.query("SELECT * FROM department", function (err, departmentResults) {
       if (err) {
         console.log(err);
@@ -281,6 +281,7 @@ const db = mysql.createConnection(
       }
     });
   }
+  showMainMenu();
   
 // const inquirer = require('inquirer');
 // const Department = require('./models/Department'); 
