@@ -1,0 +1,10 @@
+CREATE DATABASE CompanyManagementDB;
+DROP DATABASE IF EXISTS CompanyManagementDB;
+
+
+USE CompanyManagementDB;
+
+CREATE TABLE department (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL
+);
