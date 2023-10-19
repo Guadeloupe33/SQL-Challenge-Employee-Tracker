@@ -112,6 +112,83 @@ const db = mysql.createConnection(
       }
     });
   }
+  function updateEmployeeRole() {
+    db.query("SELECT * FROM role", function (err, roleResults) {
+      if (err) {
+        console.log(err);
+      } else {
+        const roleResultList = [];
+        for (let i = 0; i < roleResults.length; i++) {
+          roleResultList.push(roleResults[i].title);
+        }
+  
+        db.query("SELECT * FROM employee", function (err, employeeResults) {
+          if (err) {
+            console.log(err);
+          } else {
+            const employeeResultList = [];
+            for (let i = 0; i < employeeResults.length; i++) {
+              const currentName =
+                employeeResults[i].first_name +
+                " " +
+                employeeResults[i].last_name;
+              employeeResultList.push(currentName);
+            }
+  
+            let roleID = 0;
+            let employeeID = 0;
+            inquirer
+              .prompt([
+                {
+                  type: "list",
+                  message: "Which employee's role would you want to update?",
+                  choices: employeeResultList,
+                  name: "employeeUpdateChoice",
+                },
+                {
+                  type: "list",
+                  message:
+                    "Which role do you want to assign the selected employee?",
+                  choices: roleResultList,
+                  name: "roleUpdateChoice",
+                },
+              ])
+              .then((answers) => {
+                for (let i = 0; i < roleResults.length; i++) {
+                  if (roleResults[i].title === answers.roleUpdateChoice) {
+                    roleID = i + 1;
+                  }
+                }
+  
+                for (let i = 0; i < employeeResults.length; i++) {
+                  const currentName =
+                    employeeResults[i].first_name +
+                    " " +
+                    employeeResults[i].last_name;
+                  if (currentName === answers.employeeUpdateChoice) {
+                    employeeID = i + 1;
+                  }
+                }
+  
+                db.query(
+                  "UPDATE employee SET role_id = ? WHERE employee.id = ?",
+                  [roleID, employeeID],
+                  function (err, results) {
+                    if (err) {
+                      console.log(err);
+                    }
+                    console.log("Success!");
+                    showMainMenu();
+                  }
+                );
+              });
+          }
+        });
+      }
+    });
+  }
+
+
 // const inquirer = require('inquirer');
 // const Department = require('./models/Department'); 
 
