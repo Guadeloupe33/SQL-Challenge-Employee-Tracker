@@ -32,32 +32,34 @@ const db = mysql.createConnection(
     console.log(`Connected to the ${process.env.DB_NAME} database`)
   );
   
- 
   function showMainMenu() {
     inquirer.prompt(menuList).then((answers) => {
-      console.log(answers.mainChoice);
-      if (answers.mainChoice === "Add A Role") {
-        viewAllEmployees();
-      } else if (answers.mainChoice === "View All Available Departments") {
-       
-        addEmployee();
-      } else if (answers.mainChoice === "Add To the current listing of Department") {
-       
-        updateEmployeeRole();
-      } else if (answers.mainChoice === "View All Available Employees") {
-       
-        viewAllRoles();
-      } else if (answers.mainChoice === "Add a New Employee") {
-       
-        addRole();
-      } else if (answers.mainChoice === "Update Current Employee Role") {
-       
-        viewAllDepartments();
-      } else if (answers.mainChoice === "View All Available Roles") {
-        addDepartment();
+      switch (answers.mainChoice) {
+        case "View All Available Departments":
+          viewAllDepartments();
+          break;
+        case "View All Available Roles":
+          viewAllRoles();
+          break;
+        case "View All Available Employees":
+          viewAllEmployees();
+          break;
+        case "Add A Role":
+          addRole();
+          break;
+        case "Add a New Employee":
+          addEmployee();
+          break;
+        case "Update Current Employee Role":
+          updateEmployeeRole();
+          break;
+        case "Add To the Current Listing of Department":
+          addDepartment();
+          break;
       }
     });
   }
+  
 
 
   function addRole() {
@@ -124,7 +126,17 @@ const db = mysql.createConnection(
         }
     });
 }
-
+function viewAllRoles() {
+  db.query("SELECT * FROM role", function (err, results) {
+    if (err) {
+      console.error("Error viewing roles: " + err);
+    } else {
+      console.log("List of Roles:");
+      console.table(results);
+    }
+    showMainMenu();
+  });
+}
   function updateEmployeeRole() {
     db.query("SELECT * FROM role", function (err, roleResults) {
       if (err) {
@@ -202,6 +214,17 @@ const db = mysql.createConnection(
   }
 
 
+  function viewAllDepartments() {
+    db.query("SELECT * FROM department", function (err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("List of Departments:");
+            console.table(results);
+            showMainMenu(); // Return to the main menu
+        }
+    });
+}
 
 
   function addEmployee() {

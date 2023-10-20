@@ -2,6 +2,7 @@
 Employee Management System
 Description
 This Employee Management System is a command-line application designed to help business owners view and manage their company's departments, roles, and employees. The application allows you to organize and plan your business by providing the following features:
+<img src="" alt="Italian Trulli">
 
 View all departments
 View all roles
