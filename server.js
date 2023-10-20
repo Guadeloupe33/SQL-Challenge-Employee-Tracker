@@ -112,6 +112,19 @@ const db = mysql.createConnection(
       }
     });
   }
+  function viewAllEmployees() {
+    db.query("SELECT role.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, employee.manager_id AS manager from employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id", function (err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            // Display the results in a formatted table
+            console.table(results);
+            // Call the main menu function again to continue
+            showMainMenu();
+        }
+    });
+}
+
   function updateEmployeeRole() {
     db.query("SELECT * FROM role", function (err, roleResults) {
       if (err) {
