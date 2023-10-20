@@ -75,17 +75,17 @@ const db = mysql.createConnection(
           .prompt([
             {
               type: "input",
-              message: "What is the name of the role?",
+              message: "What is title the role?",
               name: "roleName",
             },
             {
               type: "input",
-              message: "What is the salary of the role?",
+              message: "What is the salary for this role?",
               name: "salary",
             },
             {
               type: "list",
-              message: "Which department does the role belong to?",
+              message: "Which department is this role assign to?",
               choices: departmentResults,
               name: "departmentChoice",
             },
@@ -283,57 +283,4 @@ const db = mysql.createConnection(
   }
   showMainMenu();
   
-// const inquirer = require('inquirer');
-// const Department = require('./models/Department'); 
 
-// function mainMenu() {
-//   inquirer
-//     .prompt([
-//       {
-//         type: 'list',
-//         name: 'choice',
-//         message: 'Select an option:',
-//         choices: [
-//           'View all departments',
-//           'Add a department',
-//           'Exit',
-//         ],
-//       },
-//     ])
-//     .then((answers) => {
-//       switch (answers.choice) {
-//         case 'View all departments':
-//           Department.getAllDepartments()
-//             .then(([rows]) => {
-//               console.table(rows);
-//               mainMenu();
-//             })
-//             .catch((error) => console.error(error));
-//           break;
-//         case 'Add a department':
-//           inquirer
-//             .prompt([
-//               {
-//                 type: 'input',
-//                 name: 'name',
-//                 message: 'Enter the department name:',
-//               },
-//             ])
-//             .then((answers) => {
-//               Department.addDepartment(answers.name)
-//                 .then(() => {
-//                   console.log('Department added successfully.');
-//                   mainMenu();
-//                 })
-//                 .catch((error) => console.error(error));
-//             });
-//           break;
-//         case 'Exit':
-//           console.log('Goodbye!');
-//           connection.end(); 
-//           break;
-//       }
-//     });
-// }
-
-// mainMenu();

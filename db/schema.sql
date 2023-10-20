@@ -1,8 +1,9 @@
-CREATE DATABASE CompanyManagement_DB;
-DROP DATABASE IF EXISTS CompanyManagement_DB;
+DROP DATABASE IF EXISTS management_DB;
+CREATE DATABASE management_DB;
 
 
-USE CompanyManagementDB;
+
+USE management_DB;
 
 CREATE TABLE department (
   id INT AUTO_INCREMENT PRIMARY KEY,
